@@ -1,1 +1,1 @@
-# financni_praktikum
+# Vaje pri predmetu Finančni praktikum
