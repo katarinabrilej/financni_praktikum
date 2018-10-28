@@ -100,33 +100,36 @@ colnames(tabela_napoved_3m)[1] <- "tri_m"
 tabela_napoved_3m <- data.frame(tabela_napoved_3m)
 
 #razsevni grafikon
-theme_update(plot.title = element_text(hjust = 0.5, face = "bold"))
-ggplot(tabela_napoved_3m, aes(napoved,tri_m,colour = factor(leto))) + geom_point(na.rm = TRUE,stat = 'identity') + ggtitle("3m Euribor 2009-2011") + 
-  xlab("Napoved") + ylab("Opazovano") + scale_color_manual(values=c("red", "blue", "aquamarine2"),labels = c("2009", "2010", "2011"), breaks = c("2009", "2010", "2011"), limits = c("2009", "2010", "2011"), name = "leto")+
-  xlim(0,3.5) + ylim(0,3.5) + geom_smooth(method = "lm", na.rm = TRUE, se = FALSE, color='black', size = 0.5, fullrange = TRUE) +
-  geom_abline(slope = 1, size = 0.3, linetype = "dashed") 
+tabela_napoved_3m$leto = as.factor(tabela_napoved_3m$leto)
+barve = c("red", "blue", "aquamarine2")[tabela_napoved_3m$leto]
+plot(tabela_napoved_3m$napoved, tabela_napoved_3m$tri_m,main = "3m Euribor 2009-2011", 
+                      ylab = "Opazovano", xlab = "Napoved", pch = 16, col = barve, xlim=c(0,3), ylim=c(0,3))
+abline(0,1, lty = 'dashed')
+abline(lm(tabela_napoved_3m$tri_m ~ tabela_napoved_3m$napoved))
+legend("topleft", c("2009", "2010", "2011"), col=c('red','blue', 'aquamarine2'), pch=c(16, 16, 16), bty = "n")
  
+
 #grafikon za leto 2009
-theme_update(plot.title = element_text(hjust = 0.5, face = "bold"))
-ggplot(data = tabela_napoved_3m %>% filter(leto == 2009), aes(napoved,tri_m)) + geom_point(na.rm = TRUE, color = "red") + 
-  ggtitle("3m Euribor 2009") + xlab("Napoved") + ylab("Opazovano") + xlim(0,3.5) + ylim(0,3.5)+
-  geom_smooth(method = "lm", na.rm = TRUE, se = FALSE, color='red', size = 0.5, fullrange = TRUE)+
-  geom_abline(slope = 1, size = 0.3, linetype = "dashed")
+podatki_2009 <- tabela_napoved_3m %>% filter(leto == 2009)
+plot(podatki_2009$napoved, podatki_2009$tri_m,main = "3m Euribor 2009", 
+     ylab = "Opazovano", xlab = "Napoved", pch = 16, col = "red", xlim=c(0,3), ylim=c(0,3))
+abline(0,1, lty = 'dashed')
+abline(lm(podatki_2009$tri_m ~ podatki_2009$napoved),col = "red")
 
 #grafikon za leto 2010
-theme_update(plot.title = element_text(hjust = 0.5, face = "bold"))
-ggplot(data = tabela_napoved_3m %>% filter(leto == 2010), aes(napoved,tri_m)) + geom_point(na.rm = TRUE, color = "blue") + 
-  ggtitle("3m Euribor 2010") + xlab("Napoved") + ylab("Opazovano") + xlim(0,3.5) + ylim(0,3.5)+
-  geom_smooth(method = "lm", na.rm = TRUE, se = FALSE, color='blue', size = 0.5, fullrange = TRUE)+
-  geom_abline(slope = 1, size = 0.3, linetype = "dashed")
+podatki_2010 <- tabela_napoved_3m %>% filter(leto == 2010)
+plot(podatki_2010$napoved, podatki_2010$tri_m,main = "3m Euribor 2010", 
+     ylab = "Opazovano", xlab = "Napoved", pch = 16, col = "blue", xlim=c(0,3), ylim=c(0,3))
+abline(0,1, lty = 'dashed')
+abline(lm(podatki_2010$tri_m ~ podatki_2010$napoved),col = "blue")
 
 
 #grafikon za leto 2011
-theme_update(plot.title = element_text(hjust = 0.5, face = "bold"))
-ggplot(data = tabela_napoved_3m %>% filter(leto == 2011), aes(napoved,tri_m)) + geom_point(na.rm = TRUE, color = "aquamarine2") + 
-  ggtitle("3m Euribor 2011") + xlab("Napoved") + ylab("Opazovano") + xlim(0,3.5) + ylim(0,3.5)+
-  geom_smooth(method = "lm", na.rm = TRUE, se = FALSE, color="aquamarine2", size = 0.5,fullrange = TRUE)+
-  geom_abline(slope = 1, size = 0.3, linetype = "dashed")
+podatki_2011 <- tabela_napoved_3m %>% filter(leto == 2011)
+plot(podatki_2011$napoved, podatki_2011$tri_m,main = "3m Euribor 2011", 
+     ylab = "Opazovano", xlab = "Napoved", pch = 16, col = "aquamarine2", xlim=c(0,3), ylim=c(0,3))
+abline(0,1, lty = 'dashed')
+abline(lm(podatki_2011$tri_m ~ podatki_2011$napoved),col = "aquamarine2")
 
 #hipoteza pričakovanj trga
 #pod pogojem, da ta hipoteza velja bi točke grafa morale ležati na simetrali lihih kvadrantov, vendar pa večinoma ležijo pod
