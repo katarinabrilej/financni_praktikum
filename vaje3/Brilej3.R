@@ -17,7 +17,7 @@ v4 <- c(50.00, 47.50, 45.12, 47.38, 45.01, 47.26)
 v5 <- c(50.00, 52.50, 49.88, 52.37, 54.99, 52.24)
 
 #uporabimo uteženo povprečje za izračun K
-k1 <- sum(W * v1) / sum(W)
+k1 <- sum(W*v1) / sum(W)
 k2 <- sum(W*v2) / sum(W)
 k3 <- sum(W*v3) / sum(W)
 k4 <- sum(W*v4) / sum(W)
@@ -29,11 +29,26 @@ x3 <- max(v3[6] - k3, 0)
 x4 <- max(v4[6] - k4, 0)
 x5 <- max(v5[6] - k5, 0)
 
+
 y1 <- max(0, k1 -v1[6])
 y2 <- max(0, k2 -v2[6])
 y3 <- max(0, k3 -v3[6])
 y4 <- max(0, k4 -v4[6])
 y5 <- max(0, k5 -v5[6])
+
+#izplačila opcije nakupnega tipa
+x1
+x2
+x3
+x4
+x5
+
+#izplačila opcije prodajnega tipa
+y1
+y2
+y3
+y4
+y5
 
 #1.b
 izplacilo <- function(vrsta, W, type){
@@ -62,6 +77,9 @@ binomski <- function(S_0,u,d,R,t,W,type){
   return (premija)
 }
 
+binomski(S_0,u,d,R,t,W,"call")
+binomski(S_0,u,d,R,t,W,"put")
+
 #2.b
 monte <- function(S_0,u,d,R,t,W,type, N){
   q = (1+R-d) / (u-d)
@@ -89,6 +107,10 @@ N1 <- 10
 N2 <- 100
 N3 <- 1000
 
+monte(S_0,u,d,R,t,W,type, N1)
+monte(S_0,u,d,R,t,W,type, N2)
+monte(S_0,u,d,R,t,W,type, N3)
+
 b <- binomski(S_0,u,d,R,t,W,type)
 
 #3. naloga
@@ -109,14 +131,35 @@ for(i in 1:M ){
   simulacija_3 <- c(simulacija_3,monte(S_0,u,d,R,t,W,type, N3))
 }
 
-hist(simulacija_1)
-hist(simulacija_2)
-hist(simulacija_3)
-
 
 #3.b
-hist(simulacija_1)
-abline(v = c(mean(simulacija_1),b ))
-arrows(mean(simulacija_1) , 0, mean(simulacija_1) + sd(simulacija_1),0)
-arrows(mean(simulacija_1) , 0, mean(simulacija_1) - sd(simulacija_1),0)
+graf1 <- hist(simulacija_1, main = ("Monte carlo: N = 10"), col = "yellow", xlab = "Premija", 
+              xlim = c(0,5))
+abline(v = c(mean(simulacija_1),b ),col = c("green", "red"), lty = c(1, 3), lwd = 2)
+arrows(mean(simulacija_1) , 0, mean(simulacija_1) + sd(simulacija_1),0, col = "green", lwd=2,
+       length = 0.1)
+arrows(mean(simulacija_1) , 0, mean(simulacija_1) - sd(simulacija_1),0, col = "green", lwd=2,
+       length =  0.1)
+legend("topright", legend = c("Monte Carlo", "analiza modela"),  box.lty = 0, col = c("green","red"), 
+       lty = c(1, 3), lwd=2)
+
+graf2 <- hist(simulacija_2, main = ("Monte carlo: N = 100"), col = "yellow", xlab = "Premija", 
+              xlim = c(0,5))
+abline(v = c(mean(simulacija_2),b ),col = c("green", "red"), lty = c(1, 3), lwd = 2)
+arrows(mean(simulacija_2) , 0, mean(simulacija_2) + sd(simulacija_2),0, col = "green", lwd=2,
+       length = 0.1)
+arrows(mean(simulacija_2) , 0, mean(simulacija_2) - sd(simulacija_2),0, col = "green", lwd=2,
+       length =  0.1)
+legend("topright", legend = c("Monte Carlo", "analiza modela"),  box.lty = 0, col = c("green","red"), 
+       lty = c(1, 3), lwd=2)
+
+graf3 <- hist(simulacija_3, main = ("Monte carlo: N = 1000"), col = "yellow", xlab = "Premija", 
+              xlim = c(0,5))
+abline(v = c(mean(simulacija_3),b ),col = c("green", "red"), lty = c(1, 3), lwd = 2)
+arrows(mean(simulacija_3) , 0, mean(simulacija_3) + sd(simulacija_3),0, col = "green", lwd=2,
+       length = 0.1)
+arrows(mean(simulacija_3) , 0, mean(simulacija_3) - sd(simulacija_3),0, col = "green", lwd=2,
+       length = 0.1)
+legend("topright", legend = c("Monte Carlo", "analiza modela"),  box.lty = 0, col = c("green","red"), 
+       lty = c(1, 3), lwd=2)
 
