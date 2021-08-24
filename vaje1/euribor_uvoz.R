@@ -5,7 +5,8 @@ require(reshape2)
 
 #1. naloga
 
-#uvozimo podatke za euribor za leto 2009
+
+#uvozimo podatke za euribor za leto 2009 #
 euribor_2009 <- read.csv2("euribor_2009.csv", header = TRUE) %>% .[(1:15),]
 rownames(euribor_2009) <- euribor_2009$X
 euribor_2009$X <- NULL
